@@ -18,6 +18,8 @@ _set_golang_cdpath() {
             if [[ -n "$BASE_CDPATH" ]]; then
                 export CDPATH=$CDPATH:$BASE_CDPATH
             fi
+        else
+            export CDPATH=$BASE_CDPATH
         fi
     else
         export CDPATH=$BASE_CDPATH
