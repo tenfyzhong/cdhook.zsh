@@ -1,6 +1,7 @@
 #!/usr/bin/env zsh
 
 [ ! -n "${CDHOOK_USE_SET_GOLANG_CDPATH+1}"  ] && CDHOOK_USE_SET_GOLANG_CDPATH=true
+[ ! -n "${CDHOOK_USE_SET_GIT_USER+1}" ] && CDHOOK_USE_SET_GIT_USER=true
 BASE_CDPATH=$CDPATH
 
 _set_golang_cdpath() {
@@ -26,9 +27,30 @@ _set_golang_cdpath() {
     fi
 }
 
+_set_git_user() {
+    if [[ $CDHOOK_USE_SET_GIT_USER == false ]]; then
+        return
+    fi
+    local remote="$(git remote get-url origin 2>/dev/null)"
+    if [[ -n "$remote" ]] && [[ -n "$CDHOOK_GIT_1_URL" ]]; then
+        if test "${remote#*$CDHOOK_GIT_1_URL}" != "$remote"; then
+            if [[ -n "$CDHOOK_GIT_1_USER" ]] && [[ -n "$CDHOOK_GIT_1_EMAIL" ]]; then
+                git config user.name $CDHOOK_GIT_1_USER
+                git config user.email $CDHOOK_GIT_1_EMAIL
+            fi
+        else
+            if [[ -n "$CDHOOK_GIT_2_USER" ]] && [[ -n "$CDHOOK_GIT_2_EMAIL" ]]; then
+                git config user.name $CDHOOK_GIT_2_USER
+                git config user.email $CDHOOK_GIT_2_EMAIL
+            fi
+        fi
+    fi
+}
+
 _cd_hook_chpwd_handler () {
     emulate -L zsh
     _set_golang_cdpath
+    _set_git_user
 }
 
 autoload -U add-zsh-hook
