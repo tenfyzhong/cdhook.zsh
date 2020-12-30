@@ -37,13 +37,28 @@ _set_git_user() {
             if [[ -n "$CDHOOK_GIT_1_USER" ]] && [[ -n "$CDHOOK_GIT_1_EMAIL" ]]; then
                 git config user.name $CDHOOK_GIT_1_USER
                 git config user.email $CDHOOK_GIT_1_EMAIL
+                export FT_VIM_AUTHOR=$CDHOOK_GIT_1_USER
+                export FT_VIM_EMAIL=$CDHOOK_GIT_1_EMAIL
             fi
         else
             if [[ -n "$CDHOOK_GIT_2_USER" ]] && [[ -n "$CDHOOK_GIT_2_EMAIL" ]]; then
                 git config user.name $CDHOOK_GIT_2_USER
                 git config user.email $CDHOOK_GIT_2_EMAIL
+                export FT_VIM_AUTHOR=$CDHOOK_GIT_2_USER
+                export FT_VIM_EMAIL=$CDHOOK_GIT_2_EMAIL
             fi
         fi
+    fi
+}
+
+_set_ft_vim() {
+    local remote="$(git remote get-url origin 2>/dev/null)"
+    if [[ -n "$remote" ]] && [[ -n "$CDHOOK_FT_VIM_1_URL" ]] && [[ "$remote" =~ "$CDHOOK_FT_VIM_1_URL" ]]; then
+        export FT_VIM_AUTHOR=$CDHOOK_FT_VIM_1_AUTHOR
+        export FT_VIM_EMAIL=$CDHOOK_FT_VIM_1_EMAIL
+    else
+        export FT_VIM_AUTHOR=$CDHOOK_FT_VIM_2_AUTHOR
+        export FT_VIM_EMAIL=$CDHOOK_FT_VIM_2_EMAIL
     fi
 }
 
@@ -51,6 +66,7 @@ _cd_hook_chpwd_handler () {
     emulate -L zsh
     _set_golang_cdpath
     _set_git_user
+    _set_ft_vim
 }
 
 autoload -U add-zsh-hook
