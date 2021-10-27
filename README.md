@@ -18,27 +18,27 @@ Enable set golang vendor to CDPATH.
 default: true.  
 Enable set user name and email.  
 
-### `CDHOOK_GET_1_URL`
+### `CDHOOK_GET_MATCH_URL`
 default: ''  
-If `$CDHOOK_GET_1_URL` is substr of origin remote url, it will auto run:  
+If `$CDHOOK_GET_MATCH_URL` is substr of origin remote url, it will auto run:  
 ```bash
-git config user.name $CDHOOK_GIT_1_USER
-git config user.email $CDHOOK_GIT_1_EMAIL
+git config user.name $CDHOOK_GIT_MATCH_USER
+git config user.email $CDHOOK_GIT_MATCH_EMAIL
 ```
 Else, it will auto run:
 ```bash
-git config user.name $CDHOOK_GIT_2_USER
-git config user.email $CDHOOK_GIT_2_EMAIL
+git config user.name $CDHOOK_GIT_OTHER_USER
+git config user.email $CDHOOK_GIT_OTHER_EMAIL
 ```
 
-### `CDHOOK_GET_1_USER`
+### `CDHOOK_GET_MATCH_USER`
 default: ''  
 
-### `CDHOOK_GET_1_EMAIL`
+### `CDHOOK_GET_MATCH_EMAIL`
 default: ''  
 
-### `CDHOOK_GET_2_USER`
+### `CDHOOK_GET_OTHER_USER`
 default: ''  
 
-### `CDHOOK_GET_2_EMAIL`
+### `CDHOOK_GET_OTHER_EMAIL`
 default: ''  
